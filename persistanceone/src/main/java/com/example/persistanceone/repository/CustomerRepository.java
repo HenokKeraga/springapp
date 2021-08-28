@@ -1,22 +1,19 @@
 package com.example.persistanceone.repository;
 
 import com.example.persistanceone.domain.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Array;
-import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class CustomerRepository {
 
     //datasource => where to execute the query
@@ -38,7 +35,7 @@ public class CustomerRepository {
 
     public String addCustomer(Customer customer) {
         String sql = String.format("insert into customer (id, name) values (%d,'%s')", customer.getId(), customer.getName());
-        System.out.printf("sql :::: " + sql);
+       log.info("sql :::: {}" , sql);
         getJdbcTemplate().execute(sql);
         return "done";
     }
@@ -56,9 +53,12 @@ public class CustomerRepository {
         return getJdbcTemplate().query("select * from customer", new CustomerRowMapper());
     }
 
-    public Customer getOneCustomer() {
+    public Customer getOneCustomer(Long id) {
+        String sql= String.format("select * from customer where id = %d",id);
 
-        return null;
+       log.info(" sql :::  {}",sql);
+
+        return getJdbcTemplate().queryForObject(sql,(rs,rowNum)->new Customer(rs.getLong("id"),rs.getString("name")));
     }
 
      static class CustomerRowMapper implements RowMapper<Customer>{
