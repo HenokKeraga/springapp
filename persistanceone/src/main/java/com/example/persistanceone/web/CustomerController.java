@@ -1,42 +1,37 @@
 package com.example.persistanceone.web;
 
 import com.example.persistanceone.domain.Customer;
-import com.example.persistanceone.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.persistanceone.repository.CustomerRepositoryNamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class CustomerController {
-    final
-    CustomerRepository repository;
+  final CustomerRepositoryNamedParameterJdbcTemplate repository;
 
-    public CustomerController(CustomerRepository repository) {
-        this.repository = repository;
-    }
+  public CustomerController(CustomerRepositoryNamedParameterJdbcTemplate repository) {
+    this.repository = repository;
+  }
 
+  @GetMapping("/customer")
+  public List<Customer> getAllCustomer() {
+    return repository.getAllCustomer();
+  }
 
-    @GetMapping("/customer")
-    public List<Customer>  getAllCustomer(){
-        return repository.getAllCustomer();
-    }
+  @GetMapping("/customer/{id}")
+  public Customer getCustomer(@PathVariable("id") Long id) {
+    return repository.getOneCustomerById(id);
+  }
 
-    @GetMapping("/customer/{id}")
-    public Customer getCustomer(@PathVariable("id") Long id){
-        return repository.getOneCustomer(id);
-    }
+  @PostMapping("customer")
+  public int addCustomer(@RequestBody Customer customer) {
+    return repository.addCustomer(customer);
+  }
 
-    @PostMapping("customer")
-    public String addCustomer(@RequestBody Customer customer){
-        return repository.addCustomer(customer);
-    }
-    @PostMapping("customers")
-    public String addAllCustomer(@RequestBody List<Customer> customers){
+  @PostMapping("customers")
+  public int[] addAllCustomer(@RequestBody List<Customer> customers) {
 
-        return repository.addListOfCustomer(customers);
-    }
-
-
-
+    return repository.addListOfCustomer(customers);
+  }
 }

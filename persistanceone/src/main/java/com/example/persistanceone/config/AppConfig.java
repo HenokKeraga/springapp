@@ -10,11 +10,9 @@ import javax.sql.DataSource;
 @Configuration
 public class AppConfig {
 
-    @Bean
-    @ConfigurationProperties(prefix = "first.datasource")
-    public DataSource firstDatasource() {
-        return DataSourceBuilder.create().build();
-    }
+  @Bean
+  @ConfigurationProperties(prefix = "first.datasource")
+  public DataSource firstDatasource() {
+    return DataSourceBuilder.create().build();
+  }
 }
-
-
