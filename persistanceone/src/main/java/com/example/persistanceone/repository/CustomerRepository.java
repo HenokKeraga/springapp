@@ -3,11 +3,14 @@ package com.example.persistanceone.repository;
 import com.example.persistanceone.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Array;
 import java.sql.JDBCType;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,13 +51,21 @@ public class CustomerRepository {
     }
 
     public List<Customer> getAllCustomer() {
-        getJdbcTemplate().execute("");
 
-        return null;
+
+        return getJdbcTemplate().query("select * from customer", new CustomerRowMapper());
     }
 
     public Customer getOneCustomer() {
 
         return null;
     }
+
+     static class CustomerRowMapper implements RowMapper<Customer>{
+
+         @Override
+         public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
+             return new Customer(rs.getLong("id"),rs.getString("name"));
+         }
+     }
 }

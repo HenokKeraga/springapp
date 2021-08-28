@@ -3,13 +3,19 @@ package com.example.persistanceone.domain;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class Customer {
     Long id;
     String name;
+
+    public Customer() {
+    }
+
+    public Customer(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
