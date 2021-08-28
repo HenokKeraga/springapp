@@ -34,4 +34,9 @@ public class CustomerController {
 
     return repository.addListOfCustomer(customers);
   }
+
+  @DeleteMapping("customer/{id}")
+  public int deleteCustomer(@PathVariable("id") Long id) {
+    return repository.deleteCustomerById(id);
+  }
 }

@@ -68,8 +68,7 @@ public class CustomerRepositoryNamedParameterJdbcTemplate {
         customers.stream()
             .map(
                 customer ->
-                    new MapSqlParameterSource()
-                        .addValue("id", customer.getId())
+                    new MapSqlParameterSource("id", customer.getId())
                         .addValue("name", customer.getName()))
             .collect(Collectors.toList());
     SqlParameterSource[] sqlParameterSource =
@@ -78,6 +77,13 @@ public class CustomerRepositoryNamedParameterJdbcTemplate {
     return getNamedParameterJdbcTemplate()
         .batchUpdate("insert into customer (id, name) values (:id,:name)", sqlParameterSource);
   }
+
+  public int deleteCustomerById(Long id) {
+    SqlParameterSource sqlParameterSource = new MapSqlParameterSource("id",id);
+
+    return getNamedParameterJdbcTemplate().update("delete from customer where id=:id",sqlParameterSource);
+  }
+
 
   static class CustomerRowMapper implements RowMapper<Customer> {
 
