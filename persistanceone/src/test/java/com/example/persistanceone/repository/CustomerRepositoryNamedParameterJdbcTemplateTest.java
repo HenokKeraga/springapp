@@ -54,6 +54,7 @@ class CustomerRepositoryNamedParameterJdbcTemplateTest {
     registry.add("first.datasource.jdbc-url", container::getJdbcUrl);
     registry.add("first.datasource.username", container::getUsername);
     registry.add("first.datasource.password", container::getPassword);
+    registry.add("spring.sql.init.mode", ()->"always");
   }
 
   @BeforeEach
