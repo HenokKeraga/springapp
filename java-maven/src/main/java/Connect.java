@@ -8,7 +8,7 @@ import java.util.Properties;
 public class Connect {
 
   public static void main(String[] args) {
-    //
+    //Connect To SFTP Server Through Java Application
     String host = "0.0.0.0";
     int port = 22;
     String username = "mike";
@@ -21,6 +21,7 @@ public class Connect {
     try {
 
       session = jSch.getSession(username, host, port);
+
 
       Properties properties = new Properties();
       properties.put("StrictHostKeyChecking", "no");
@@ -37,7 +38,9 @@ public class Connect {
       String fullLocation="upload";
       channelSftp.cd(fullLocation);
       String home = System.getProperty("user.home");
+
 // upload
+
 //      File file   = new File(home + "/Desktop/test.txt");
 //      FileInputStream fileInputStream = new FileInputStream(file);
 //      channelSftp.put(fileInputStream,file.getName());
@@ -47,8 +50,10 @@ public class Connect {
       String remoteLoc= "/upload/test.txt";
       channelSftp.get(remoteLoc,home + "/Desktop/test.txt");
       System.out.println("downloaded");
+
+
 //      channel = session.openChannel("exec");
-//      ((ChannelExec)channel).setCommand("cd /upload");
+//      ((ChannelExec)channel).setCommand("ls");
 //
 //      InputStream inputStream =channel.getInputStream();
 //      channel.connect();
