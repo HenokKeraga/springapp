@@ -1,0 +1,9 @@
+#!/bin/ksh
+
+print "hello world"
+
+y=5
+Y=7
+
+print "y is $y"
+
