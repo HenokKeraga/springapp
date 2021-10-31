@@ -5,7 +5,6 @@ import com.example.persistanceone.repository.CustomerRepositoryNamedParameterJdb
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 public class CustomerController {
   final CustomerRepositoryNamedParameterJdbcTemplate repository;
@@ -18,6 +17,7 @@ public class CustomerController {
   public List<Customer> getAllCustomer() {
     return repository.getAllCustomer();
   }
+
 
   @GetMapping("/customer/{id}")
   public Customer getCustomer(@PathVariable("id") Long id) {
