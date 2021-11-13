@@ -17,16 +17,13 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-task:2.3.4'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.6'
     implementation 'com.h2database:h2:1.4.200'
-
-
-
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'hsqldb:hsqldb:1.8.0.10'
     implementation 'org.springframework.cloud:spring-cloud-task-batch:2.3.4'
     implementation 'org.springframework.boot:spring-boot-starter-batch:2.5.6'
     implementation 'org.springframework.cloud:spring-cloud-task-core:2.3.4'
     implementation 'org.projectlombok:lombok:1.18.22'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
