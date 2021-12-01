@@ -2,9 +2,7 @@ package com.example.springcloudtask.config;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
-import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -92,7 +90,38 @@ public class JobConfiguration {
     @Bean
     public Job job2() {
         return jobBuilderFactory.get("job2")
+                .listener(new JobExecutionListener() {
+                    @Override
+                    public void beforeJob(JobExecution jobExecution) {
+                        LOGGER.info("before job");
+                    }
+
+                    @Override
+                    public void afterJob(JobExecution jobExecution) {
+                        LOGGER.info("After job");
+                        if (jobExecution.getExitStatus().equals(ExitStatus.FAILED)){
+                            LOGGER.info("After job "+"FAILED");
+                        }
+
+                    }
+                })
                 .start(stepBuilderFactory.get("job2step1")
+                        .listener(new StepExecutionListener() {
+                            @Override
+                            public void beforeStep(StepExecution stepExecution) {
+                                LOGGER.info("before step");
+                            }
+
+                            @Override
+                            public ExitStatus afterStep(StepExecution stepExecution) {
+                                LOGGER.info("After step");
+                                if (stepExecution.getExitStatus().equals(ExitStatus.FAILED)){
+                                    LOGGER.info("After step " + "FAILED" );
+                                    return ExitStatus.FAILED;
+                                }
+                                return ExitStatus.COMPLETED;
+                            }
+                        })
                         .tasklet(new Tasklet() {
                             @Override
                             public RepeatStatus execute(
@@ -100,6 +129,7 @@ public class JobConfiguration {
                                     ChunkContext chunkContext)
                                     throws Exception {
                                 LOGGER.info("This job is from Baeldung");
+                                contribution.setExitStatus(ExitStatus.FAILED);
                                 return RepeatStatus.FINISHED;
                             }
                         })
